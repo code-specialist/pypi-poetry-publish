@@ -1,6 +1,8 @@
 name: 'PyPi Poetry Publish'
 description: 'Opinionated GitHub action to fully automate publishing packages to any PyPI registry - using Poetry and GitHub releases'
-icon: package
+branding:
+  icon: 'package'
+  color: 'blue'
 
 inputs:
   PACKAGE_DIRECTORY:
