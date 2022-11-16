@@ -80,7 +80,7 @@ jobs:
           PYTHON_VERSION: "3.10"
           ACTIONS_ACCESS_TOKEN: ${{ secrets.ACTIONS_ACCESS_TOKEN }}
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-          REGISTRY: "https://test.pypi.org/simple/"
+          REGISTRY: "https://test.pypi.org/legacy/"
 ```
 
 ### publish.yaml to publish to a private pypi
