@@ -27,8 +27,8 @@ your package manager and have the `pyproject.toml` and `poetry.lock` files in th
 
 Each example requires you to:
 
-1. Create a workflow (e.g. `.github/workflows/publish.yml` ) with the following content:
-2. Create a new release and tag e.g. `1.0.0` with the `master` branch as the target and the action will be triggered and publishes your package
+1. Create a workflow file e.g. `.github/workflows/publish.yml`
+2. Create a new release and tag e.g. `1.0.0` and the action will be triggered and publishes your package
 
 ### publish.yaml to publish to public pypi
 
