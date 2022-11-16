@@ -1,5 +1,5 @@
 name: 'PyPi Poetry Publish'
-description: 'Opinionated GitHub action to fully automate publishing packages to PyPI - using Poetry and GitHub releases'
+description: 'Opinionated GitHub action to fully automate publishing packages to any PyPI registry - using Poetry and GitHub releases'
 
 inputs:
   PACKAGE_DIRECTORY:
@@ -11,13 +11,21 @@ inputs:
   PYTHON_VERSION:
     description: 'Python Version'
     required: false
-  PYPI_TOKEN:
-    description: 'Password for the user to publish to Pypi'
+  PYPI_PASSWORD:
+    description: 'Password for the user to publish to PyPi. May also be a Token - requires the `PYPI_USERNAME` to be `__token__`'
     required: true
+  PYPI_USERNAME:
+    description: 'The username for the registry. Defaults to __token__'
+    required: false
+    default: '__token__'
   BRANCH:
     description: 'Branch to publish from'
     required: false
     default: 'master'
+  REGISTRY:
+    description: 'The registry to publish to'
+    required: false
+    default: 'https://pypi.org/simple/'
 
 runs:
   using: 'composite'
@@ -66,5 +74,5 @@ runs:
     - name: Build and Publish
       run: |
         cd repository
-        poetry publish -p ${{ inputs.PYPI_TOKEN }} -u __token__ --build
+        poetry publish -p ${{ inputs.PYPI_PASSWORD }} -u ${{ inputs.PYPI_USERNAME }} -r ${{ inputs.REGISTRY }} --build
       shell: bash
