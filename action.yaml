@@ -62,7 +62,7 @@ runs:
         git config --global user.name "PyPi Poetry Publish Bot"
         git config --global user.email "admin@code-specialist.com"
         git commit -m "Change version to ${{ github.event.release.tag_name }}" --allow-empty
-        git push origin HEAD:master
+        git push origin HEAD:${{ inputs.BRANCH }}
       shell: bash
 
     - name: Install Dependencies

@@ -1,7 +1,7 @@
 # pypi-poetry-publish
 
 Opinionated GitHub action to fully automate publishing packages to PyPI - using Poetry and GitHub releases. This action assumes you use [poetry](https://python-poetry.org/) as
-your package manager and have a `pyproject.toml` file in the root directory of your repository.
+your package manager and have the `pyproject.toml` and `poetry.lock` files in the root directory of your repository.
 
 ## Process
 
