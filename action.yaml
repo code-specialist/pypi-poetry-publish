@@ -36,7 +36,6 @@ runs:
       with:
         ref: ${{ inputs.BRANCH }}
         token: ${{ inputs.ACTIONS_ACCESS_TOKEN }}
-        path: ./repository
 
     - name: Install poetry
       run: pip install poetry poetry-core
@@ -51,14 +50,12 @@ runs:
 
     - name: Set GitHub Tag as Package Version
       run: |
-        cd repository
         echo __version__="'"${{ github.event.release.tag_name }}"'" > ${{ inputs.PACKAGE_DIRECTORY }}__init__.py
         sed -i '0,/version =.*/s//version = "'"${{ github.event.release.tag_name }}"'"/' ./pyproject.toml
       shell: bash
 
     - name: Add and Commit Version
       run: |
-        cd repository 
         git add ${{ inputs.PACKAGE_DIRECTORY }}__init__.py ./pyproject.toml
         git config --global user.name "PyPi Poetry Publish Bot"
         git config --global user.email "admin@code-specialist.com"
@@ -68,12 +65,10 @@ runs:
 
     - name: Install Dependencies
       run: |
-        cd repository
-        poetry install
+        poetry install --no-root
       shell: bash
 
     - name: Build and Publish
       run: |
-        cd repository
         poetry publish -p ${{ inputs.PYPI_PASSWORD }} -u ${{ inputs.PYPI_USERNAME }} -r ${{ inputs.REGISTRY }} --build
       shell: bash
