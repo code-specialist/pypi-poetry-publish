@@ -1,0 +1,70 @@
+name: 'PyPi Poetry Publish'
+description: 'Opinionated GitHub action to fully automate publishing packages to PyPI - using Poetry and GitHub releases'
+
+inputs:
+  PACKAGE_DIRECTORY:
+    description: 'Directory of the package'
+    required: true
+  ACTIONS_ACCESS_TOKEN:
+    description: 'Access Token for GitHub with write access'
+    required: true
+  PYTHON_VERSION:
+    description: 'Python Version'
+    required: false
+  PYPI_TOKEN:
+    description: 'Password for the user to publish to Pypi'
+    required: true
+  BRANCH:
+    description: 'Branch to publish from'
+    required: false
+    default: 'master'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.BRANCH }}
+        token: ${{ inputs.ACTIONS_ACCESS_TOKEN }}
+        path: ./repository
+
+    - name: Install poetry
+      run: pip install poetry poetry-core
+      shell: bash
+
+    - name: Set up Python ${{ inputs.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.PYTHON_VERSION }}
+        cache: 'poetry'
+        check-latest: true
+
+    - name: Set GitHub Tag as Package Version
+      run: |
+        cd repository
+        echo __version__="'"${{ github.event.release.tag_name }}"'" > ${{ inputs.PACKAGE_DIRECTORY }}__init__.py
+        sed -i '0,/version =.*/s//version = "'"${{ github.event.release.tag_name }}"'"/' ./pyproject.toml
+      shell: bash
+
+    - name: Add and Commit Version
+      run: |
+        cd repository 
+        git add ${{ inputs.PACKAGE_DIRECTORY }}__init__.py ./pyproject.toml
+        git config --global user.name "PyPi Poetry Publish Bot"
+        git config --global user.email "admin@code-specialist.com"
+        git commit -m "Change version to ${{ github.event.release.tag_name }}" --allow-empty
+        git push origin HEAD:master
+      shell: bash
+
+    - name: Install Dependencies
+      run: |
+        cd repository
+        poetry install
+      shell: bash
+
+    - name: Build and Publish
+      run: |
+        cd repository
+        poetry publish -p ${{ inputs.PYPI_TOKEN }} -u __token__ --build
+      shell: bash
