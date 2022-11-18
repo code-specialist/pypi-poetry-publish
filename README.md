@@ -19,7 +19,7 @@ your package manager and have the `pyproject.toml` and `poetry.lock` files in th
 | `ACTIONS_ACCESS_TOKEN` | GitHub token with write access to the repository, to adjust the version                                   | ✓         |                            |
 | `PYPI_PASSWORD`        | Either a password for the registry user or a token in combination with `__token__` as the `PYPI_USERNAME` | ✓         |                            |
 | `PYPI_USERNAME`        | The username for the pypi registry                                                                        |           | `__token__`                |
-| `PYTHON_VERSION`       | The Python version to perform the build with                                                | ✓         |   `3.10`                         |   
+| `PYTHON_VERSION`       | The Python version to perform the build with                                                |          |   `3.10`                         |   
 | `BRANCH`               | The branch to publish from                                                                                |           | `master`                   |
 | `REGISTRY`             | The registry to publish to e.g.`https://test.pypi.org/simple/`                                            |           | `https://pypi.org/simple/` |
 
