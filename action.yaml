@@ -14,6 +14,7 @@ inputs:
   PYTHON_VERSION:
     description: 'Python Version'
     required: false
+    default: '3.10'
   PYPI_PASSWORD:
     description: 'Password for the user to publish to PyPi. May also be a Token - requires the `PYPI_USERNAME` to be `__token__`'
     required: true
