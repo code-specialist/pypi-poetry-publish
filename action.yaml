@@ -8,8 +8,8 @@ inputs:
   PACKAGE_DIRECTORY:
     description: 'Directory of the package'
     required: true
-  ACTIONS_ACCESS_TOKEN:
-    description: 'Access Token for GitHub with write access'
+  ACCESS_TOKEN:
+    description: 'Access Token for GitHub with write access on the repository'
     required: true
   PYTHON_VERSION:
     description: 'Python Version'
@@ -38,7 +38,7 @@ runs:
       uses: actions/checkout@v3
       with:
         ref: ${{ inputs.BRANCH }}
-        token: ${{ inputs.ACTIONS_ACCESS_TOKEN }}
+        token: ${{ inputs.ACCESS_TOKEN }}
 
     - name: Install poetry
       run: pip install poetry poetry-core
