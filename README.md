@@ -1,7 +1,9 @@
 # pypi-poetry-publish
 
 Opinionated GitHub action to fully automate publishing packages to PyPI - using Poetry and GitHub releases. This action assumes you use [poetry](https://python-poetry.org/) as
-your package manager and have the `pyproject.toml` and `poetry.lock` files in the root directory of your repository. This action is also supported on private GitHub actions runners. If you do not use a custom runner, you may use the builtin functionality `GITHUB_TOKEN` with write permissions as seen in the examples.
+your package manager and have the `pyproject.toml` and `poetry.lock` files in the root directory of your repository.
+
+**This action is also supported on private GitHub actions runners**. If you do not use a custom runner, you may use the builtin functionality `GITHUB_TOKEN` with write permissions as the `ACCESS_TOKEN` as seen in the first example.
 
 ## Process
 
@@ -16,7 +18,7 @@ your package manager and have the `pyproject.toml` and `poetry.lock` files in th
 | Name                   | Description                                                                                               | Mandatory | Default                    |
 |------------------------|-----------------------------------------------------------------------------------------------------------|-----------|----------------------------|
 | `PACKAGE_DIRECTORY`    | The directory the package is located in e.g. `./`, `./src/`                                               | ✓         |                            |
-| `ACTIONS_ACCESS_TOKEN` | GitHub token with write access to the repository, to adjust the version                                   | ✓         |                            |
+| `ACCESS_TOKEN` | GitHub token with write access to the repository, to adjust the version                                   | ✓         |                            |
 | `PYPI_PASSWORD`        | Either a password for the registry user or a token in combination with `__token__` as the `PYPI_USERNAME` | ✓         |                            |
 | `PYPI_USERNAME`        | The username for the pypi registry                                                                        |           | `__token__`                |
 | `PYTHON_VERSION`       | The Python version to perform the build with                                                |          |   `3.10`                         |   
@@ -55,7 +57,7 @@ jobs:
         with:
           PACKAGE_DIRECTORY: "./example-package/"
           PYTHON_VERSION: "3.10"
-          ACTIONS_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
 ```
 
@@ -63,7 +65,7 @@ jobs:
 
 - Requires GitHub secrets:
 	- `PYPI_PASSWORD` with a valid token
-	- `ACTIONS_ACCESS_TOKEN` access token with write access to the GitHub repository
+	- `ACCESS_TOKEN` access token with write access to the GitHub repository
 
 ```yaml
 name: Build and publish python package
@@ -81,7 +83,7 @@ jobs:
         with:
           PACKAGE_DIRECTORY: "./example-package/"
           PYTHON_VERSION: "3.10"
-          ACTIONS_ACCESS_TOKEN: ${{ secrets.ACTIONS_ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
           REGISTRY: "https://test.pypi.org/legacy/"
 ```
@@ -91,7 +93,7 @@ jobs:
 - Requires GitHub secrets:
 	- `PYPI_USER` username for the pypi registry
 	- `PYPI_PASSWORD` with the password for the `PYPI_USER` user
-	- `ACTIONS_ACCESS_TOKEN` access token with write access to the GitHub repository
+	- `ACCESS_TOKEN` access token with write access to the GitHub repository
 
 ```yaml
 name: Build and publish python package
@@ -109,7 +111,7 @@ jobs:
         with:
           PACKAGE_DIRECTORY: "./example-package/"
           PYTHON_VERSION: "3.10"
-          ACTIONS_ACCESS_TOKEN: ${{ secrets.ACTIONS_ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
           PYPI_USER: ${{ secrets.PYPI_USER }}
           REGISTRY: "https://pypi.code-specialist.com/simple/"
