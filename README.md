@@ -122,24 +122,24 @@ __version__ = "1.0.0"  # adjusted to 1.0.0
 ```
 
 ## Inputs
-> The inputs marked with (✓) are required if the `POETRY_CUSTOM_REGISTRY_URL` is set.
+> The inputs marked with (✓) are required if the `POETRY_DEPENDENCY_REGISTRY_URL` is set.
 
-| Name                              | Description                                                                                                                         | Mandatory | Default                    |
-|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-----------|----------------------------|
-| `ACCESS_TOKEN`                    | GitHub token with write access to the repository, to adjust the version                                                             | ✓         |                            |
-| `PUBLISH_REGISTRY_PASSWORD`       | Either a password for the registry user or a token in combination with `__token__` as the `PUBLISH_REGISTRY_USERNAME`               | ✓         |                            |
-| `PUBLISH_REGISTRY_USERNAME`       | The username for the pypi registry                                                                                                  |           | `__token__`                |
-| `PACKAGE_DIRECTORY`               | The directory the package is located in e.g. `./src/`, `./example_package`                                                          |           | './'                       |
-| `POETRY_VERSION`                  | The Poetry version to perform the build with                                                                                        |           | `1.1.8`                    |   
-| `POETRY_CORE_VERSION`             | The Poetry Code version to perform the build with                                                                                   |           | `1.0.4`                    |   
-| `PYTHON_VERSION`                  | The Python version to perform the build with                                                                                        |           | `3.10`                     |   
-| `BRANCH`                          | The branch to publish from                                                                                                          |           | `master`                   |
-| `PUBLISH_REGISTRY`                | The registry to publish to e.g.`https://test.pypi.org/simple/`                                                                      |           | `https://pypi.org/simple/` |
-| `POETRY_CUSTOM_REGISTRY_URL`      | Allows to define a custom registry to be used by Poetry for dependency installation e.g. `https://pypi.code-specialist.com/simple/` |           |                            |
-| `POETRY_CUSTOM_REGISTRY_NAME`     | The name used for the custom registry in the dependencies. Must match the name in the `pyproject.toml`                              | (✓)       |                            |
-| `POETRY_CUSTOM_REGISTRY_USERNAME` | The username for the custom registry                                                                                                | (✓)       |                            |
-| `POETRY_CUSTOM_REGISTRY_PASSWORD` | The password for the custom registry                                                                                                | (✓)       |                            |
-| `POETRY_CUSTOM_REGISTRY_AUTH`     | The authentication type for the custom registry                                                                                     |           | `http-basic`               |
+| Name                                  | Description                                                                                                                         | Mandatory | Default                    |
+|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-----------|----------------------------|
+| `ACCESS_TOKEN`                        | GitHub token with write access to the repository, to adjust the version                                                             | ✓         |                            |
+| `PUBLISH_REGISTRY_PASSWORD`           | Either a password for the registry user or a token in combination with `__token__` as the `PUBLISH_REGISTRY_USERNAME`               | ✓         |                            |
+| `PUBLISH_REGISTRY_USERNAME`           | The username for the pypi registry                                                                                                  |           | `__token__`                |
+| `PACKAGE_DIRECTORY`                   | The directory the package is located in e.g. `./src/`, `./example_package`                                                          |           | './'                       |
+| `POETRY_VERSION`                      | The Poetry version to perform the build with                                                                                        |           | `1.1.8`                    |   
+| `POETRY_CORE_VERSION`                 | The Poetry Code version to perform the build with                                                                                   |           | `1.0.4`                    |   
+| `PYTHON_VERSION`                      | The Python version to perform the build with                                                                                        |           | `3.10`                     |   
+| `BRANCH`                              | The branch to publish from                                                                                                          |           | `master`                   |
+| `PUBLISH_REGISTRY`                    | The registry to publish to e.g.`https://test.pypi.org/simple/`                                                                      |           | `https://pypi.org/simple/` |
+| `POETRY_DEPENDENCY_REGISTRY_URL`      | Allows to define a custom registry to be used by Poetry for dependency installation e.g. `https://pypi.code-specialist.com/simple/` |           |                            |
+| `POETRY_DEPENDENCY_REGISTRY_NAME`     | The name used for the custom registry in the dependencies. Must match the name in the `pyproject.toml`                              | (✓)       |                            |
+| `POETRY_DEPENDENCY_REGISTRY_USERNAME` | The username for the custom registry                                                                                                | (✓)       |                            |
+| `POETRY_DEPENDENCY_REGISTRY_PASSWORD` | The password for the custom registry                                                                                                | (✓)       |                            |
+| `POETRY_CUSTOM_REGISTRY_AUTH`         | The authentication type for the custom registry                                                                                     |           | `http-basic`               |
 
 
 
@@ -246,8 +246,8 @@ jobs:
   - `ACCESS_TOKEN` access token with write access to the GitHub repository
   - `PUBLISH_REGISTRY_USER` username for the PyPI registry
   - `PUBLISH_REGISTRY_PASSWORD` with the password for the `PUBLISH_REGISTRY_USER` user
-  - `POETRY_CUSTOM_REGISTRY_USERNAME` username for the custom registry
-  - `POETRY_CUSTOM_REGISTRY_PASSWORD` password for the custom registry
+  - `POETRY_DEPENDENCY_REGISTRY_USERNAME` username for the custom registry
+  - `POETRY_DEPENDENCY_REGISTRY_PASSWORD` password for the custom registry
 
 **publish.yaml**
 ```yaml
@@ -267,11 +267,11 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         PUBLISH_REGISTRY_USER: ${{ secrets.PUBLISH_REGISTRY_USER }}
         PUBLISH_REGISTRY_PASSWORD: ${{ secrets.PUBLISH_REGISTRY_PASSWORD }}
-        PUBLISH_REGISTRY: "https://pypi.code-specialist.com/simple/"
-        POETRY_CUSTOM_REGISTRY_URL: "https://pypi.code-specialist.com/simple/"
-        POETRY_CUSTOM_REGISTRY_NAME: "codespecialist"
-        POETRY_CUSTOM_REGISTRY_USERNAME: ${{ secrets.CUSTOM_PUBLISH_REGISTRY_USERNAME }}
-        POETRY_CUSTOM_REGISTRY_PASSWORD: ${{ secrets.CUSTOM_PUBLISH_REGISTRY_PASSWORD }}									
+        PUBLISH_REGISTRY: "https://pypi.code-specialist.com"
+        POETRY_DEPENDENCY_REGISTRY_URL: "https://pypi.code-specialist.com"
+        POETRY_DEPENDENCY_REGISTRY_NAME: "codespecialist"
+        POETRY_DEPENDENCY_REGISTRY_USERNAME: ${{ secrets.CUSTOM_PUBLISH_REGISTRY_USERNAME }}
+        POETRY_DEPENDENCY_REGISTRY_PASSWORD: ${{ secrets.CUSTOM_PUBLISH_REGISTRY_PASSWORD }}									
 ```
 
 For this to install the dependency `private-code-specialist-example-package` from `https://pypi.code-specialist.com/simple/`, the corresponding `pyproject.toml` would look like 
@@ -285,9 +285,12 @@ description = "Example package"
 authors = ["Code Specialist"]
 packages = [{include = "example_package"}]
 
+[[tool.poetry.source]]
+name = "codespecialist"
+url = "https://pypi.code-specialist.com"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-private-code-specialist-example-package = {version = "^1.0.0", registry = "codespecialist"}
+private-code-specialist-example-package = {version = "^1.0.0", source = "codespecialist"}
 ```
 

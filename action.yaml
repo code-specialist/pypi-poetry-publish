@@ -35,19 +35,19 @@ inputs:
     description: 'Branch to publish from'
     required: false
     default: 'master'
-  POETRY_CUSTOM_REGISTRY_URL:
+  POETRY_DEPENDENCY_REGISTRY_URL:
     description: 'Allows to define a custom registry to be used by Poetry for dependency installation'
     required: false
-  POETRY_CUSTOM_REGISTRY_NAME:
+  POETRY_DEPENDENCY_REGISTRY_NAME:
     description: 'The name used for the custom registry in the dependencies'
     required: false
-  POETRY_CUSTOM_REGISTRY_USERNAME:
+  POETRY_DEPENDENCY_REGISTRY_USERNAME:
     description: 'The username for the custom registry'
     required: false
-  POETRY_CUSTOM_REGISTRY_PASSWORD:
+  POETRY_DEPENDENCY_REGISTRY_PASSWORD:
     description: 'The password for the custom registry'
     required: false
-  POETRY_CUSTOM_REGISTRY_AUTH:
+  POETRY_DEPENDENCY_REGISTRY_AUTH:
     description: 'The authentication type for the custom registry'
     required: false
     default: 'http-basic'
@@ -92,15 +92,15 @@ runs:
       shell: bash
 
     - name: Install dependencies
-      if: inputs.POETRY_CUSTOM_REGISTRY_URL != ''
+      if: inputs.POETRY_DEPENDENCY_REGISTRY_URL != ''
       run: |
-        poetry config repositories.${{ inputs.POETRY_CUSTOM_REGISTRY_NAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_URL }}
-        poetry config ${{ inputs.POETRY_CUSTOM_REGISTRY_AUTH }}.${{ inputs.POETRY_CUSTOM_REGISTRY_NAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_USERNAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_PASSWORD }}
+        poetry config repositories.${{ inputs.POETRY_DEPENDENCY_REGISTRY_NAME }} ${{ inputs.POETRY_DEPENDENCY_REGISTRY_URL }}
+        poetry config ${{ inputs.POETRY_DEPENDENCY_REGISTRY_AUTH }}.${{ inputs.POETRY_DEPENDENCY_REGISTRY_NAME }} ${{ inputs.POETRY_DEPENDENCY_REGISTRY_USERNAME }} ${{ inputs.POETRY_DEPENDENCY_REGISTRY_PASSWORD }}
         poetry install --no-root
       shell: bash
 
     - name: Install dependencies
-      if: inputs.POETRY_CUSTOM_REGISTRY_URL == ''
+      if: inputs.POETRY_DEPENDENCY_REGISTRY_URL == ''
       run: |
         poetry install --no-root
       shell: bash
