@@ -14,6 +14,12 @@ collaboration and contribution** - We're happy to receive feedback, issues, pull
 - Configurable **Python version**, **Poetry**, and **Poetry Core version** for specific needs
 - Configurable branch e.g. `main`, `master`, `beta`, etc.
 
+Jump to example:
+	- [Publish to public PyPI](#publish-to-public-pypi)
+	- [With private dependencies](#with-private-dependencies)
+	- [To a private PyPI](#publish-to-a-private-pypi)
+	- [With private dependencies](#with-private-dependencies)
+
 ## Prerequisites
 
 This action assumes you use [poetry](https://python-poetry.org/) as your package manager and have the `pyproject.toml` and `poetry.lock` files in the root directory of your
@@ -137,7 +143,7 @@ __version__ = "1.0.0"  # adjusted to 1.0.0
 
 
 
-## Example usage
+## Examples
 
 Each example requires you to:
 
