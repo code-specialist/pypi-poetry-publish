@@ -47,7 +47,7 @@ inputs:
   POETRY_CUSTOM_REGISTRY_PASSWORD:
     description: 'The password for the custom registry'
     required: false
-  POETRY_CUSTOM_REGISTRY_AUTHENTICATION_TYPE:
+  POETRY_CUSTOM_REGISTRY_AUTH:
     description: 'The authentication type for the custom registry'
     required: false
     default: 'http-basic'
@@ -95,7 +95,7 @@ runs:
       if: inputs.POETRY_CUSTOM_REGISTRY_URL != ''
       run: |
         poetry config repositories.${{ inputs.POETRY_CUSTOM_REGISTRY_NAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_URL }}
-        poetry config ${{ inputs.POETRY_CUSTOM_REGISTRY_AUTHENTICATION_TYPE }}.${{ inputs.POETRY_CUSTOM_REGISTRY_NAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_USERNAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_PASSWORD }}
+        poetry config ${{ inputs.POETRY_CUSTOM_REGISTRY_AUTH }}.${{ inputs.POETRY_CUSTOM_REGISTRY_NAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_USERNAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_PASSWORD }}
         poetry install --no-root
       shell: bash
 
