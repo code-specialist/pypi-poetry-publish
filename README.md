@@ -11,7 +11,7 @@ collaboration and
 - Automatically publish your package to PyPI when you create a new release on GitHub
 - Publish to the public PyPI, the TestPyPI, or a custom PyPI server
 - Runs on private GitHub Actions runners
-- Support for private PyPI repository dependencies
+- Support for private PyPI repository dependencies via `ADDTIONAL`
 - Configurable **Python version**, **Poetry**, and **Poetry Core version**
 - Configurable branch e.g. `main`, `master`, `beta`, etc.
 
@@ -118,17 +118,18 @@ __version__ = "1.0.0"  # adjusted to 1.0.0
 
 ## Inputs
 
-| Name                  | Description                                                                                               | Mandatory | Default                    |
-|-----------------------|-----------------------------------------------------------------------------------------------------------|-----------|----------------------------|
-| `ACCESS_TOKEN`        | GitHub token with write access to the repository, to adjust the version                                   | ✓         |                            |
-| `PYPI_PASSWORD`       | Either a password for the registry user or a token in combination with `__token__` as the `PYPI_USERNAME` | ✓         |                            |
-| `PYPI_USERNAME`       | The username for the pypi registry                                                                        |           | `__token__`                |
-| `PACKAGE_DIRECTORY`   | The directory the package is located in e.g. `./src/`, `./example_package`                                |           | './'                       |
-| `POETRY_VERSION`      | The Poetry version to perform the build with                                                              |           | `1.1.8`                    |   
-| `POETRY_CORE_VERSION` | The Poetry Code version to perform the build with                                                         |           | `1.0.4`                    |   
-| `PYTHON_VERSION`      | The Python version to perform the build with                                                              |           | `3.10`                     |   
-| `BRANCH`              | The branch to publish from                                                                                |           | `master`                   |
-| `PUBLISH_REGISTRY`    | The registry to publish to e.g.`https://test.pypi.org/simple/`                                            |           | `https://pypi.org/simple/` |
+| Name                              | Description                                                                                               | Mandatory | Default                    |
+|-----------------------------------|-----------------------------------------------------------------------------------------------------------|-----------|----------------------------|
+| `ACCESS_TOKEN`                    | GitHub token with write access to the repository, to adjust the version                                   | ✓         |                            |
+| `PYPI_PASSWORD`                   | Either a password for the registry user or a token in combination with `__token__` as the `PYPI_USERNAME` | ✓         |                            |
+| `PYPI_USERNAME`                   | The username for the pypi registry                                                                        |           | `__token__`                |
+| `PACKAGE_DIRECTORY`               | The directory the package is located in e.g. `./src/`, `./example_package`                                |           | './'                       |
+| `POETRY_VERSION`                  | The Poetry version to perform the build with                                                              |           | `1.1.8`                    |   
+| `POETRY_CORE_VERSION`             | The Poetry Code version to perform the build with                                                         |           | `1.0.4`                    |   
+| `PYTHON_VERSION`                  | The Python version to perform the build with                                                              |           | `3.10`                     |   
+| `BRANCH`                          | The branch to publish from                                                                                |           | `master`                   |
+| `PUBLISH_REGISTRY`                | The registry to publish to e.g.`https://test.pypi.org/simple/`                                            |           | `https://pypi.org/simple/` |
+| `ADDITIONAL_POETRY_INSTALL_STEPS` | Allows to inject additional steps in to the installation via poetry                                       |           | `https://pypi.org/simple/` |
 
 ## Example usage
 
