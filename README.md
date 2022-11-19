@@ -9,10 +9,10 @@ collaboration and
 ## Features
 
 - Automatically publish your package to PyPI when you create a new release on GitHub
-- Publish to the public PyPI, the TestPyPI, or a custom PyPI server
+- Publish to the public PyPI, the TestPyPI, or a custom PyPI registry
 - Runs on private GitHub Actions runners
 - Support for private PyPI repository dependencies
-- Configurable **Python version**, **Poetry**, and **Poetry Core version**
+- Configurable **Python version**, **Poetry**, and **Poetry Core version** for specific needs
 - Configurable branch e.g. `main`, `master`, `beta`, etc.
 
 ## Prerequisites
