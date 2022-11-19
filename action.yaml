@@ -22,11 +22,22 @@ inputs:
     description: 'The username for the registry. Defaults to __token__'
     required: false
     default: '__token__'
+  POETRY_VERSION:
+    description: 'The version of Poetry to use'
+    required: false
+    default: '1.1.8'
+  POETRY_CORE_VERSION:
+    description: 'The version of Poetry Core to use'
+    required: false
+    default: '1.0.4'
   BRANCH:
     description: 'Branch to publish from'
     required: false
     default: 'master'
-  REGISTRY:
+  ADDITIONAL_POETRY_INSTALL_STEPS:
+    description: 'Allows to add additional steps to the poetry installation'
+    required: false
+  PUBLISH_REGISTRY:
     description: 'The registry to publish to'
     required: false
     default: 'https://pypi.org/simple/'
@@ -41,7 +52,7 @@ runs:
         token: ${{ inputs.ACCESS_TOKEN }}
 
     - name: Install poetry
-      run: pip install poetry poetry-core
+      run: pip install poetry==${{ inputs.POETRY_VERSION }} poetry-core==${{ inputs.POETRY_CORE_VERSION }}
       shell: bash
 
     - name: Set up Python ${{ inputs.PYTHON_VERSION }}
@@ -66,13 +77,24 @@ runs:
         git push origin HEAD:${{ inputs.BRANCH }}
       shell: bash
 
-    - name: Install Dependencies
+    - name: Install dependencies
+      if: inputs.ADDITIONAL_POETRY_INSTALL_STEPS != ''
+      run: |
+        declare -a commands=${{ inputs.ADDITIONAL_POETRY_INSTALL_STEPS }}
+        for (( i = 0; i < ${#commands[@]} ; i++ )); do
+            eval "${commands[$i]}"
+        done
+        poetry install --no-root
+      shell: bash
+
+    - name: Install dependencies
+      if: inputs.ADDITIONAL_POETRY_INSTALL_STEPS == ''
       run: |
         poetry install --no-root
       shell: bash
 
     - name: Build and Publish
       run: |
-        poetry config repositories.publish ${{ inputs.REGISTRY }}    
+        poetry config repositories.publish ${{ inputs.PUBLISH_REGISTRY }}    
         poetry publish -p ${{ inputs.PYPI_PASSWORD }} -u ${{ inputs.PYPI_USERNAME }} -r publish --build
       shell: bash
