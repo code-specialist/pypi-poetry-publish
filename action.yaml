@@ -1,4 +1,4 @@
-name: 'PyPi Poetry Publish'
+name: 'PyPI Poetry Publish'
 description: 'Opinionated GitHub action to fully automate publishing packages to any PyPI registry - using Poetry and GitHub releases'
 branding:
   icon: 'package'
@@ -16,7 +16,7 @@ inputs:
     required: false
     default: '3.10'
   PYPI_PASSWORD:
-    description: 'Password for the user to publish to PyPi. May also be a Token - requires the `PYPI_USERNAME` to be `__token__`'
+    description: 'Password for the user to publish to PyPI. May also be a Token - requires the `PYPI_USERNAME` to be `__token__`'
     required: true
   PYPI_USERNAME:
     description: 'The username for the registry. Defaults to __token__'
@@ -60,7 +60,7 @@ runs:
     - name: Add and Commit Version
       run: |
         git add ${{ inputs.PACKAGE_DIRECTORY }}__init__.py ./pyproject.toml
-        git config --global user.name "PyPi Poetry Publish Bot"
+        git config --global user.name "PyPI Poetry Publish Bot"
         git config --global user.email "admin@code-specialist.com"
         git commit -m "Change version to ${{ github.event.release.tag_name }}" --allow-empty
         git push origin HEAD:${{ inputs.BRANCH }}

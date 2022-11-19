@@ -7,7 +7,7 @@ This action assumes you use [poetry](https://python-poetry.org/) as your package
 **This action is also supported on private GitHub actions runners**. If you do not use a custom runner, you may use the builtin functionality `GITHUB_TOKEN` with write permissions as the `ACCESS_TOKEN` as seen in the first example. See [https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
 
 
-> :warning: We recommend you to use this workflow with the test pypi registry e.g. `REGISTRY: "https://test.pypi.org/simple/"` until you can confirm your workflow works as expected.
+> :warning: We recommend you to use this workflow with the test PyPI registry e.g. `REGISTRY: "https://test.pypi.org/simple/"` until you can confirm your workflow works as expected.
 
 ## Process
 
@@ -36,7 +36,7 @@ Each example requires you to:
 1. Create a workflow file e.g. `.github/workflows/publish.yml`
 2. Create a new release and tag e.g. `1.0.0` and the action will be triggered and publishes your package
 
-### publish.yaml to publish to public pypi
+### publish.yaml to publish to public PyPI
 
 - Requires GitHub secrets:
 	- `PYPI_PASSWORD` with a valid token
@@ -65,7 +65,7 @@ jobs:
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
 ```
 
-### publish.yaml to publish to the test pypi
+### publish.yaml to publish to the test PyPI
 
 - Requires GitHub secrets:
 	- `PYPI_PASSWORD` with a valid token
@@ -92,10 +92,10 @@ jobs:
           REGISTRY: "https://test.pypi.org/legacy/"
 ```
 
-### publish.yaml to publish to a private pypi
+### publish.yaml to publish to a private PyPI
 
 - Requires GitHub secrets:
-	- `PYPI_USER` username for the pypi registry
+	- `PYPI_USER` username for the PyPI registry
 	- `PYPI_PASSWORD` with the password for the `PYPI_USER` user
 	- `ACCESS_TOKEN` access token with write access to the GitHub repository
 
@@ -110,7 +110,7 @@ jobs:
   publish-service-client-package:
     runs-on: ubuntu-latest
     steps:
-      - name: Publish PyPi package
+      - name: Publish PyPI package
         uses: code-specialist/pypi-poetry-publish@v1
         with:
           PACKAGE_DIRECTORY: "./example-package/"
