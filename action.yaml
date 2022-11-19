@@ -5,9 +5,6 @@ branding:
   color: 'blue'
 
 inputs:
-  PACKAGE_DIRECTORY:
-    description: 'Directory of the package'
-    required: true
   ACCESS_TOKEN:
     description: 'Access Token for GitHub with write access on the repository'
     required: true
@@ -15,6 +12,10 @@ inputs:
     description: 'Python Version'
     required: false
     default: '3.10'
+  PACKAGE_DIRECTORY:
+    description: 'Directory of the package'
+    required: false
+    default: './'
   PYPI_PASSWORD:
     description: 'Password for the user to publish to PyPI. May also be a Token - requires the `PYPI_USERNAME` to be `__token__`'
     required: true

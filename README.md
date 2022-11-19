@@ -2,7 +2,8 @@
 
 Opinionated GitHub action to fully automate publishing packages to PyPI - using Poetry and GitHub releases.
 
-> :information_source: We published this action because we use it in our projects and thought it would be useful to others as well. This action is **open to any kind of collaboration and 
+> :information_source: We published this action because we use it in our projects and thought it would be useful to others as well. This action is **open to any kind of
+collaboration and
 > contribution** - We're happy to receive feedback, issues, pull requests or just kudos. :heart:
 
 ## Features
@@ -13,13 +14,6 @@ Opinionated GitHub action to fully automate publishing packages to PyPI - using 
 - Support for private PyPI repository dependencies
 - Configurable **Python version**, **Poetry**, and **Poetry Core version**
 - Configurable branch e.g. `main`, `master`, `beta`, etc.
-
-> :information_source: If you do not use a custom runner, you may use the builtin functionality `GITHUB_TOKEN` with write permissions as the `ACCESS_TOKEN` as seen in the first example.
-> See [https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow](https://docs.github.
-> com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
-
-> :warning: We recommend you to use this workflow with the test PyPI registry e.g. `PUBLISH_REGISTRY: "https://test.pypi.org/simple/"` until you can confirm your workflow works as
-> expected.
 
 ## Prerequisites
 
@@ -32,6 +26,36 @@ my_project/
 │  ├─ __init__.py
 ├─ pyproject.toml
 ├─ poetry.lock
+```
+
+> :information_source: If you do not use a custom runner, you may use the builtin functionality `GITHUB_TOKEN` with write permissions as the `ACCESS_TOKEN` as seen in the first
+> example.
+> See [https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow](https://docs.github.
+> com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
+
+> :warning: We recommend you to use this workflow with the test PyPI registry e.g. `PUBLISH_REGISTRY: "https://test.pypi.org/simple/"` until you can confirm your workflow works as
+> expected.
+
+## Minimal example
+
+```yaml
+name: Build and publish python package
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  publish-service-client-package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Publish PyPi package
+        uses: code-specialist/pypi-poetry-publish@v1
+        with:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYPI_PASSWORD: ${{ secrets.PYPI_TOKEN }}
 ```
 
 ## Process
@@ -89,17 +113,17 @@ python = "^3.10"
 **./example_package/__init__.py**
 
 ```python
-__version__ = "1.0.0" # adjusted to 1.0.0
+__version__ = "1.0.0"  # adjusted to 1.0.0
 ```
 
 ## Inputs
 
 | Name                  | Description                                                                                               | Mandatory | Default                    |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|-----------|----------------------------|
-| `PACKAGE_DIRECTORY`   | The directory the package is located in e.g. `./`, `./src/`                                               | ✓         |                            |
 | `ACCESS_TOKEN`        | GitHub token with write access to the repository, to adjust the version                                   | ✓         |                            |
 | `PYPI_PASSWORD`       | Either a password for the registry user or a token in combination with `__token__` as the `PYPI_USERNAME` | ✓         |                            |
 | `PYPI_USERNAME`       | The username for the pypi registry                                                                        |           | `__token__`                |
+| `PACKAGE_DIRECTORY`   | The directory the package is located in e.g. `./src/`, `./example_package`                                |           | './'                       |
 | `POETRY_VERSION`      | The Poetry version to perform the build with                                                              |           | `1.1.8`                    |   
 | `POETRY_CORE_VERSION` | The Poetry Code version to perform the build with                                                         |           | `1.0.4`                    |   
 | `PYTHON_VERSION`      | The Python version to perform the build with                                                              |           | `3.10`                     |   
@@ -112,7 +136,6 @@ Each example requires you to:
 
 1. Create a workflow file e.g. `.github/workflows/publish.yaml`
 2. Create a new release and tag e.g. `1.0.0` and the action will be triggered and publishes your package
-
 
 > :information_source: If there is a use case you would like to see, please open an issue or a pull request.
 
