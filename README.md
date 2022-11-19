@@ -3,8 +3,7 @@
 Opinionated GitHub action to fully automate publishing packages to PyPI - using Poetry and GitHub releases.
 
 > :information_source: We published this action because we use it in our projects and thought it would be useful to others as well. This action is **open to any kind of
-collaboration and
-> contribution** - We're happy to receive feedback, issues, pull requests or just kudos. :heart:
+collaboration and contribution** - We're happy to receive feedback, issues, pull requests or just kudos.
 
 ## Features
 
