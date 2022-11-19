@@ -2,7 +2,7 @@
 
 Opinionated GitHub action to fully automate publishing packages to PyPI - using Poetry and GitHub releases.
 
-> :info: We published this action because we use it in our projects and thought it would be useful to others as well. This action is **open to any kind of collaboration and 
+> :information_source: We published this action because we use it in our projects and thought it would be useful to others as well. This action is **open to any kind of collaboration and 
 > contribution** - We're happy to receive feedback, issues, pull requests or just kudos. :heart:
 
 ## Features
@@ -14,7 +14,7 @@ Opinionated GitHub action to fully automate publishing packages to PyPI - using 
 - Configurable **Python version**, **Poetry**, and **Poetry Core version**
 - Configurable branch e.g. `main`, `master`, `beta`, etc.
 
-> :info: If you do not use a custom runner, you may use the builtin functionality `GITHUB_TOKEN` with write permissions as the `ACCESS_TOKEN` as seen in the first example.
+> :information_source: If you do not use a custom runner, you may use the builtin functionality `GITHUB_TOKEN` with write permissions as the `ACCESS_TOKEN` as seen in the first example.
 > See [https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow](https://docs.github.
 > com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
 
@@ -59,9 +59,6 @@ packages = [{include = "example_package"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pydantic = "^1.10.2"
-
-...
 ```
 
 **./example_package/__init__.py**
@@ -87,9 +84,6 @@ packages = [{include = "example_package"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pydantic = "^1.10.2"
-
-...
 ```
 
 **./example_package/__init__.py**
@@ -120,7 +114,7 @@ Each example requires you to:
 2. Create a new release and tag e.g. `1.0.0` and the action will be triggered and publishes your package
 
 
-> :info: If there is a use case you would like to see, please open an issue or a pull request.
+> :information_source: If there is a use case you would like to see, please open an issue or a pull request.
 
 ### `publish.yaml` to publish to public PyPI
 
