@@ -16,10 +16,10 @@ inputs:
     description: 'Directory of the package'
     required: false
     default: './'
-  PYPI_PASSWORD:
-    description: 'Password for the user to publish to PyPI. May also be a Token - requires the `PYPI_USERNAME` to be `__token__`'
+  PUBLISH_REGISTRY_PASSWORD:
+    description: 'Password for the user to publish to PyPI. May also be a Token - requires the `PUBLISH_REGISTRY_USERNAME` to be `__token__`'
     required: true
-  PYPI_USERNAME:
+  PUBLISH_REGISTRY_USERNAME:
     description: 'The username for the registry. Defaults to __token__'
     required: false
     default: '__token__'
@@ -35,9 +35,22 @@ inputs:
     description: 'Branch to publish from'
     required: false
     default: 'master'
-  ADDITIONAL_POETRY_INSTALL_STEPS:
-    description: 'Allows to add additional steps to the poetry installation'
+  POETRY_CUSTOM_REGISTRY_URL:
+    description: 'Allows to define a custom registry to be used by Poetry for dependency installation'
     required: false
+  POETRY_CUSTOM_REGISTRY_NAME:
+    description: 'The name used for the custom registry in the dependencies'
+    required: false
+  POETRY_CUSTOM_REGISTRY_USERNAME:
+    description: 'The username for the custom registry'
+    required: false
+  POETRY_CUSTOM_REGISTRY_PASSWORD:
+    description: 'The password for the custom registry'
+    required: false
+  POETRY_CUSTOM_REGISTRY_AUTHENTICATION_TYPE:
+    description: 'The authentication type for the custom registry'
+    required: false
+    default: 'http-basic'
   PUBLISH_REGISTRY:
     description: 'The registry to publish to'
     required: false
@@ -79,17 +92,15 @@ runs:
       shell: bash
 
     - name: Install dependencies
-      if: inputs.ADDITIONAL_POETRY_INSTALL_STEPS != ''
+      if: inputs.POETRY_CUSTOM_REGISTRY_URL != ''
       run: |
-        declare -a commands=${{ inputs.ADDITIONAL_POETRY_INSTALL_STEPS }}
-        for (( i = 0; i < ${#commands[@]} ; i++ )); do
-            eval "${commands[$i]}"
-        done
+        poetry config repositories.${{ inputs.POETRY_CUSTOM_REGISTRY_NAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_URL }}
+        poetry config ${{ inputs.POETRY_CUSTOM_REGISTRY_AUTHENTICATION_TYPE }}.${{ inputs.POETRY_CUSTOM_REGISTRY_NAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_USERNAME }} ${{ inputs.POETRY_CUSTOM_REGISTRY_PASSWORD }}
         poetry install --no-root
       shell: bash
 
     - name: Install dependencies
-      if: inputs.ADDITIONAL_POETRY_INSTALL_STEPS == ''
+      if: inputs.POETRY_CUSTOM_REGISTRY_URL == ''
       run: |
         poetry install --no-root
       shell: bash
@@ -97,5 +108,5 @@ runs:
     - name: Build and Publish
       run: |
         poetry config repositories.publish ${{ inputs.PUBLISH_REGISTRY }}    
-        poetry publish -p ${{ inputs.PYPI_PASSWORD }} -u ${{ inputs.PYPI_USERNAME }} -r publish --build
+        poetry publish -p ${{ inputs.PUBLISH_REGISTRY_PASSWORD }} -u ${{ inputs.PUBLISH_REGISTRY_USERNAME }} -r publish --build
       shell: bash
