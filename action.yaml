@@ -54,7 +54,7 @@ inputs:
   PUBLISH_REGISTRY:
     description: 'The registry to publish to'
     required: false
-    default: 'https://pypi.org/simple/'
+    default: 'https://pypi.org'
 
 runs:
   using: 'composite'
