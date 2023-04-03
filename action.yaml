@@ -26,11 +26,11 @@ inputs:
   POETRY_VERSION:
     description: 'The version of Poetry to use'
     required: false
-    default: '1.1.8'
+    default: ''
   POETRY_CORE_VERSION:
     description: 'The version of Poetry Core to use'
     required: false
-    default: '1.0.4'
+    default: ''
   BRANCH:
     description: 'Branch to publish from'
     required: false
@@ -66,7 +66,7 @@ runs:
         token: ${{ inputs.ACCESS_TOKEN }}
 
     - name: Install poetry
-      run: pip install poetry==${{ inputs.POETRY_VERSION }} poetry-core==${{ inputs.POETRY_CORE_VERSION }}
+      run: pip install poetry${{ inputs.POETRY_VERSION != '' && format('=={0}', inputs.POETRY_VERSION) || '' }} poetry-core${{ inputs.POETRY_CORE_VERSION != '' && format('=={0}', inputs.POETRY_CORE_VERSION) || '' }}
       shell: bash
 
     - name: Set up Python ${{ inputs.PYTHON_VERSION }}
